@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+</head>
+<body>
+
+
+
+    <a th:href="@{/}">Главная</a><br/>
+    <a th:href="@{/about}">О проекте</a><br/><br/>
+
+    Имя: <span th:utext="*{user.getName()}"></span><br/>
+    Город: <span th:utext="*{user.getCity()}"></span><br/>
+    Телефон: <span th:utext="*{user.getPhone()}"></span><br/>
+    Дата рождения: <span th:utext="*{user.getBirth()}"></span><br/>
+    E-mail: <span th:utext="*{user.getMail()}"></span><br/><br/>
+
+    <form method="POST" th:action="@{logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+    <br/>
+<!--    как сделать относительную ссылку?-->
+    <a th:href="@{/profile/edit}">Редактирование</a><br/>
+    <a th:href="@{/profile/editPassword}">Изменить пароль</a>
+
+</body>
+</html>

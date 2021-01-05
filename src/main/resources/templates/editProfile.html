@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование пользователя</title>
+</head>
+<body>
+    <form method="POST" th:action="@{/profile/edit}">
+        <label for="mail">Почта: </label>
+        <input th:value="${user.getMail()}" type="email" name="mail"/><br/>
+        <label for="name">Имя: </label>
+        <input th:value="${user.getName()}" type="text" name="name"/><br/>
+        <label for="secondName">Фамилия: </label>
+        <input th:value="${user.getSecondName()}" type="text" name="secondName"/><br/>
+        <label for="thirdName">Отчество: </label>
+        <input th:value="${user.getThirdName()}" type="text" name="thirdName"/><br/>
+        <label for="city">Город: </label>
+        <input th:value="${user.getCity()}"type="text" name="city"/><br/>
+        <label for="phone">Телефон: </label>
+        <input th:value="${user.getPhone()}" type="tel" name="phone"/><br/>
+        <label for="birth">Дата рождения: </label>
+        <input th:value="${user.getBirth()}" type="date" name="birth"/><br/><br/>
+        <input type="submit" value="Подтвердить изменения"/>
+    </form>
+</body>
+</html>

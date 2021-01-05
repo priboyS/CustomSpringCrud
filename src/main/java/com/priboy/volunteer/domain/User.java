@@ -4,9 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,46 +17,38 @@ public class User {
     @Id
     @GeneratedValue
     private long id;
-    private String mail;
-    private String name;
-    private String secondName;
-    private String thirdName;
+    private String username;
+    private String email;
     private String password;
+
+    private String fullname;
     private String city;
     private String phone;
     private LocalDate birth;
-    private boolean male;
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.MALE;
+    private String photo;
+    private String information;
+    private LocalDate dateRegistration;
+    private String organization = "";
+    // перечисление для подачи заявок
+    @Enumerated(EnumType.STRING)
+    private ProposalActive proposalActive = ProposalActive.NONE;
 
-    private int active;
+    private int active = 1;
     private String roles = "";
     private String permissions = "";
 
-    public User(String mail, String name, String secondName, String thirdName, String password, String city, String phone, LocalDate birth, boolean male) {
-        this.mail = mail;
-        this.name = name;
-        this.secondName = secondName;
-        this.thirdName = thirdName;
+    public User(String username, String email, String password, String fullname, String city, String phone, LocalDate birth, String photo, String information) {
+        this.username = username;
+        this.email = email;
         this.password = password;
+        this.fullname = fullname;
         this.city = city;
         this.phone = phone;
         this.birth = birth;
-        this.male = male;
-        this.active = 1;
-    }
-
-    public User(String mail, String name, String secondName, String thirdName, String password, String city, String phone, LocalDate birth, boolean male, int active, String roles, String permissions) {
-        this.mail = mail;
-        this.name = name;
-        this.secondName = secondName;
-        this.thirdName = thirdName;
-        this.password = password;
-        this.city = city;
-        this.phone = phone;
-        this.birth = birth;
-        this.male = male;
-        this.active = 1;
-        this.roles = roles;
-        this.permissions = permissions;
+        this.photo = photo;
+        this.information = information;
     }
 
     public List<String> getRoleList(){
@@ -73,5 +63,20 @@ public class User {
             return Arrays.asList(this.permissions.split(","));
         }
         return new ArrayList<String>();
+    }
+
+    // получаем текущую дату регистрации
+    @PrePersist
+    void dateRegistration(){
+        this.dateRegistration = LocalDate.now();
+    }
+
+    // вложенный клас с нумерацией
+    enum ProposalActive{
+        NONE, EMAIL, PHONE, EMAILPHONE, ACTIVE;
+    }
+
+    enum Gender{
+        MALE, FEMALE;
     }
 }

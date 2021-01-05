@@ -7,19 +7,22 @@
 </head>
 <body>
 
-
-
     <a th:href="@{/}">Главная</a><br/>
     <a th:href="@{/about}">О проекте</a><br/><br/>
 
-    Имя: <span th:utext="*{user.getName()}"></span><br/>
+    Ник: <span th:utext="*{user.getUsername()}"></span><br/>
+    Почта: <span th:utext="*{user.getEmail()}"></span><br/>
+    Полное имя: <span th:utext="*{user.getFullname()}"></span><br/>
     Город: <span th:utext="*{user.getCity()}"></span><br/>
     Телефон: <span th:utext="*{user.getPhone()}"></span><br/>
     Дата рождения: <span th:utext="*{user.getBirth()}"></span><br/>
-    E-mail: <span th:utext="*{user.getMail()}"></span><br/><br/>
+    Пол: <span th:utext="*{user.getGender()}"></span><br/>
+    Фото: <span th:utext="*{user.getPhoto()}"></span><br/>
+    Обо мне: <span th:utext="*{user.getInformation()}"></span><br/>
+    Дата регистрации: <span th:utext="*{user.getDateRegistration()}"></span><br/>
 
     <form method="POST" th:action="@{logout}">
-        <input type="submit" value="Logout"/>
+        <input type="submit" value="Выйти из аккаунта"/>
     </form>
     <br/>
 <!--    как сделать относительную ссылку?-->

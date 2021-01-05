@@ -18,7 +18,6 @@ import java.util.Map;
 @Controller
 @RequestMapping
 public class ProfileController {
-
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
@@ -46,15 +45,20 @@ public class ProfileController {
     @PostMapping("/profile/edit")
     public String editProfile(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userPrincipal.getUser();
-        user.setName(userParam.get("name"));
-        user.setSecondName(userParam.get("secondName"));
-        user.setThirdName(userParam.get("thirdName"));
-        user.setMail(userParam.get("mail"));
+        user.setUsername(userParam.get("username"));
+        user.setEmail(userParam.get("email"));
+        user.setFullname(userParam.get("fullname"));
         user.setCity(userParam.get("city"));
         user.setPhone(userParam.get("phone"));
-        user.setBirth(LocalDate.parse(userParam.get("birth")));
-        userRepository.save(user);
+        user.setInformation(userParam.get("information"));
+        // проверка на наличие даты
+        LocalDate localDate = null;
+        if(!userParam.get("birth").equals("")){
+            localDate = LocalDate.parse(userParam.get("birth"));
+        }
+        user.setBirth(localDate);
 
+        userRepository.save(user);
         return "redirect:/profile";
     }
 

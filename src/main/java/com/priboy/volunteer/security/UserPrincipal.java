@@ -49,7 +49,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getMail();
+        return user.getUsername();
     }
 
 

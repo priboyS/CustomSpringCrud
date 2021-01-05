@@ -10,18 +10,33 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class RegistrationForm {
-    private String mail;
-    private String name;
-    private String secondName;
-    private String thirdName;
+    private String username;
+    private String email;
     private String password;
+
+    private String fullname;
     private String city;
     private String phone;
     private String birth;
     private boolean male;
+    private String photo;
+    private String information;
 
     public User toUser(PasswordEncoder passwordEncoder){
-        return new User(mail, name, secondName, thirdName, passwordEncoder.encode(password), city, phone,
-                LocalDate.parse(birth), male);
+
+        // проверка на наличие даты
+        LocalDate localDate = null;
+        if(!birth.equals("")){
+            localDate = LocalDate.parse(birth);
+        }
+
+        return new User(username, email, passwordEncoder.encode(password), fullname, city, phone,
+                localDate, photo, information);
     }
 }
+
+
+
+
+
+

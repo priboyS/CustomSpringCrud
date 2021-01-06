@@ -1,7 +1,7 @@
 package com.priboy.volunteer.controller;
 
-import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.security.RegistrationForm;
+import com.priboy.volunteer.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegistrationController {
 
     PasswordEncoder passwordEncoder;
-    UserRepository userRepository;
+    UserService userService;
 
-    public RegistrationController(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+
+    public RegistrationController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -29,7 +30,7 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistration(RegistrationForm registrationForm){
-        userRepository.save(registrationForm.toUser(passwordEncoder));
+        userService.addUser(registrationForm.toUser(passwordEncoder));
         return "redirect:/login";
     }
 

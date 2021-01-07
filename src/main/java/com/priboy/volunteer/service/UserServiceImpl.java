@@ -2,10 +2,10 @@ package com.priboy.volunteer.service;
 
 import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.domain.User;
-import com.priboy.volunteer.util.CheckDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Service
@@ -17,6 +17,15 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    // проверка на наличие даты (при пустой строке ошибка)
+    static public LocalDate checkLocalDate(String birth){
+        LocalDate localDate = null;
+        if(!birth.equals("")){
+            localDate = LocalDate.parse(birth);
+        }
+        return localDate;
     }
 
     @Override
@@ -32,7 +41,7 @@ public class UserServiceImpl implements UserService{
         user.setCity(userParam.get("city"));
         user.setPhone(userParam.get("phone"));
         user.setInformation(userParam.get("information"));
-        user.setBirth(CheckDate.checkLocalDate(userParam.get("birth")));
+        user.setBirth(checkLocalDate(userParam.get("birth")));
         return userRepository.save(user);
     }
 

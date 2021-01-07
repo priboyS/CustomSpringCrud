@@ -1,8 +1,6 @@
 package com.priboy.volunteer.domain;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +10,9 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     @GeneratedValue
@@ -20,7 +20,6 @@ public class User {
     private String username;
     private String email;
     private String password;
-
     private String fullname;
     private String city;
     private String phone;
@@ -39,17 +38,7 @@ public class User {
     private String roles = "";
     private String permissions = "";
 
-    public User(String username, String email, String password, String fullname, String city, String phone, LocalDate birth, String photo, String information) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.fullname = fullname;
-        this.city = city;
-        this.phone = phone;
-        this.birth = birth;
-        this.photo = photo;
-        this.information = information;
-    }
+
 
     public List<String> getRoleList(){
         if(this.roles.length() > 0){

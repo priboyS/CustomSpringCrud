@@ -10,24 +10,26 @@
     <a th:href="@{/login}">Вход</a><br/>
     <form method="POST" th:action="@{/registration}" th:object="${registrationForm}">
         <label for="username">Ник: </label>
-        <input type="text" name="username"/><br/>
+        <input type="text" name="username"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('username')}"
+              th:errors="*{username}"></span><br/>
         <label for="email">Почта: </label>
-        <input type="email" name="email"/><br/>
+        <input type="email" name="email"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('email')}"
+              th:errors="*{email}"></span><br/>
         <label for="password">Пароль: </label>
-        <input type="password" name="password"/><br/>
+        <input type="password" name="password"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}"></span><br/>
         <label for="confirm">Подтверждение пароля: </label>
-        <input type="password" name="confirm"/><br/>
-        <p>Информация, необходимая для подачи заявок</p>
-        <label for="fullname">Полное имя: </label>
-        <input type="text" name="fullname"/><br/>
-        <label for="city">Город: </label>
-        <input type="text" name="city"/><br/>
-        <label for="phone">Телефон: </label>
-        <input type="tel" name="phone"/><br/>
-        <label for="birth">Дата рождения: </label>
-        <input type="date" name="birth"/><br/>
-        <label for="information">Обо мне: </label>
-        <input type="text" name="information"/><br/>
+        <input type="password" name="confirm"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('confirm')}"
+              th:errors="*{confirm}"></span>
+        <br/>
         <input type="submit" value="Зарегистрироваться"/>
     </form>
 </body>

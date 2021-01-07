@@ -40,7 +40,6 @@ public class ProfileController {
         return "editProfile";
     }
 
-    // толстый контроллер
     @PostMapping("/profile/edit")
     public String editProfile(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userPrincipal.getUser();
@@ -53,8 +52,6 @@ public class ProfileController {
         return "editPassword";
     }
 
-    // толстый контроллер, какие ошибки выводить
-    // как лучше прописывать ошибки
     @PostMapping("/profile/editPassword")
     public String editPassword(Model model, @RequestParam Map<String, String> passwordParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userPrincipal.getUser();

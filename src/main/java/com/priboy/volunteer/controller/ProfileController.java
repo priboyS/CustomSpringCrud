@@ -1,6 +1,6 @@
 package com.priboy.volunteer.controller;
 
-import com.priboy.volunteer.domain.User;
+import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.security.UserPrincipal;
 import com.priboy.volunteer.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,22 +28,24 @@ public class ProfileController {
     // безопасно ли это  - получать user так из userPrincipal?
     @GetMapping("/profile")
     public String showProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        User user = userPrincipal.getUser();
-        model.addAttribute(user);
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute(userDto);
+
         return "profile";
     }
 
     @GetMapping("/profile/edit")
     public String showEditProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        User user = userPrincipal.getUser();
-        model.addAttribute(user);
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute(userDto);
+
         return "editProfile";
     }
 
     @PostMapping("/profile/edit")
     public String editProfile(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        User user = userPrincipal.getUser();
-        userService.updateUser(user, userParam);
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        userService.updateUser(userDto, userParam);
         return "redirect:/profile";
     }
 
@@ -53,28 +55,43 @@ public class ProfileController {
     }
 
     @PostMapping("/profile/editPassword")
-    public String editPassword(Model model, @RequestParam Map<String, String> passwordParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        User user = userPrincipal.getUser();
-        userService.updatePassword(user, passwordParam);
+    public String editPassword(Model model, @RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
 
-//        String password = passwordParam.get("password");
-//        String confirm = passwordParam.get("confirm");
-//        String oldPassword = passwordParam.get("oldPassword");
-//
-//        // проверяем confirm (в будущем сделать прямо в форме)
-//        if(!password.equals(confirm)){
-//            model.addAttribute("errorText", "Ваши пароли не совпали");
-//            model.addAttribute("error", true);
-//            return "editPassword";
-//        }
-//        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
-//            model.addAttribute("errorText", "Неверный пароль");
-//            model.addAttribute("error", true);
-//            return "editPassword";
-//        }
+        String password = userParam.get("password");
+        String confirm = userParam.get("confirm");
+        String oldPassword = userParam.get("oldPassword");
+
+        // валидация полей
+        if(!password.equals(confirm)){
+            model.addAttribute("errorText", "Ваши пароли не совпали");
+            model.addAttribute("error", true);
+            return "editPassword";
+        }else if (!passwordEncoder.matches(oldPassword, userPrincipal.getPassword())){
+            model.addAttribute("errorText", "Неверный пароль");
+            model.addAttribute("error", true);
+            return "editPassword";
+        }
+
+        userService.updatePassword(userDto, password);
 
         return "redirect:/profile";
     }
 
+    @GetMapping("/profile/editUsername")
+    public String showEditUsername(){
+        return "editUsername";
+    }
 
+    @PostMapping("profile/editUsername")
+    public String editUsername(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+
+        // задаем новый userPrincipal для бесшовной ауентификации (см. userPrincipal) (без токена ауентификации)
+        if(userService.updateUsername(userDto, userParam.get("username"))){
+            userPrincipal.setUsername(userParam.get("username"));
+        }
+
+        return "redirect:/profile";
+    }
 }

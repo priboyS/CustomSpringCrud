@@ -37,11 +37,6 @@ public class UserPrincipal implements UserDetails {
         return authorities;
     }
 
-    // так можно ли? Для получения User в Controller
-    public User getUser() {
-        return user;
-    }
-
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -52,6 +47,10 @@ public class UserPrincipal implements UserDetails {
         return user.getUsername();
     }
 
+    // метод для переименования имени (использую вместо задания нового токена аунтефикации) (безопасно ли?)
+    public void setUsername(String username) {
+        user.setUsername(username);
+    }
 
     @Override
     public boolean isAccountNonExpired() {

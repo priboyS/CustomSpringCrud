@@ -8,7 +8,7 @@
 <body>
     <a th:href="@{/}">Главная страница</a><br/>
     <a th:href="@{/login}">Вход</a><br/>
-    <form method="POST" th:action="@{/registration}" th:object="${registrationForm}">
+    <form method="POST" th:action="@{/registration}" th:object="${userDto}">
         <label for="username">Ник: </label>
         <input type="text" name="username"/>
         <span class="validationError"

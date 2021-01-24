@@ -1,5 +1,7 @@
 package com.priboy.volunteer.domain;
 
+import com.priboy.volunteer.domain.enumeration.Gender;
+import com.priboy.volunteer.domain.enumeration.ProposalActive;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,8 +13,9 @@ import java.util.List;
 @Data
 @Entity
 @Builder(access = AccessLevel.PUBLIC)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+// убрал тут protected - зачем был
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
@@ -34,6 +37,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ProposalActive proposalActive = ProposalActive.NONE;
 
+    @Column(columnDefinition = "int default 1")
     private int active = 1;
     private String roles = "";
     private String permissions = "";
@@ -60,12 +64,4 @@ public class User {
         this.dateRegistration = LocalDate.now();
     }
 
-    // вложенный клас с нумерацией
-    enum ProposalActive{
-        NONE, EMAIL, PHONE, EMAILPHONE, ACTIVE;
-    }
-
-    enum Gender{
-        MALE, FEMALE;
-    }
 }

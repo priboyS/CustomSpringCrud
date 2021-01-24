@@ -2,6 +2,8 @@ package com.priboy.volunteer.service;
 
 import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.domain.User;
+import com.priboy.volunteer.dto.UserDto;
+import com.priboy.volunteer.mapper.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +30,18 @@ public class UserServiceImpl implements UserService{
         return localDate;
     }
 
+
     @Override
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public boolean addUser(UserDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRepository.save(UserMapper.MAPPER.toUser(userDto));
+        return true;
     }
 
     @Override
-    public User updateUser(User user, Map<String, String> userParam) {
+    public boolean updateUser(UserDto userDto, Map<String, String> userParam) {
+        User user = userRepository.findByUsername(userDto.getUsername());
+
         user.setUsername(userParam.get("username"));
         user.setEmail(userParam.get("email"));
         user.setFullname(userParam.get("fullname"));
@@ -42,29 +49,31 @@ public class UserServiceImpl implements UserService{
         user.setPhone(userParam.get("phone"));
         user.setInformation(userParam.get("information"));
         user.setBirth(checkLocalDate(userParam.get("birth")));
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return true;
     }
 
     @Override
-    public User updatePassword(User user, Map<String, String> passwordParam) {
-        String password = passwordParam.get("password");
-        String confirm = passwordParam.get("confirm");
-        String oldPassword = passwordParam.get("oldPassword");
-
-//        // проверяем confirm (в будущем сделать прямо в форме)
-//        if(!password.equals(confirm)){
-//            model.addAttribute("errorText", "Ваши пароли не совпали");
-//            model.addAttribute("error", true);
-//            return "editPassword";
-//        }
-//        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
-//            model.addAttribute("errorText", "Неверный пароль");
-//            model.addAttribute("error", true);
-//            return "editPassword";
-//        }
-
+    public boolean updatePassword(UserDto userDto, String password) {
+        User user = UserMapper.MAPPER.toUser(userDto);
         user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+        return true;
+    }
 
-        return userRepository.save(user);
+    @Override
+    public boolean updateUsername(UserDto userDto, String username) {
+        User user = UserMapper.MAPPER.toUser(userDto);
+        user.setUsername(username);
+        userRepository.save(user);
+
+        return true;
+    }
+
+    @Override
+    public UserDto findByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return UserMapper.MAPPER.userDto(user);
     }
 }

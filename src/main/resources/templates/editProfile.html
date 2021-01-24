@@ -8,19 +8,19 @@
 <body>
     <form method="POST" th:action="@{/profile/edit}">
         <label for="username">Ник: </label>
-        <input th:value="*{user.getUsername()}" type="text" name="username"/><br/>
+        <input th:value="*{userDto.getUsername()}" type="text" name="username"/><br/>
         <label for="email">Почта: </label>
-        <input th:value="*{user.getEmail()}" type="email" name="email"/><br/>
+        <input th:value="*{userDto.getEmail()}" type="email" name="email"/><br/>
         <label for="fullname">Полное имя: </label>
-        <input th:value="*{user.getFullname()}" type="text" name="fullname"/><br/>
+        <input th:value="*{userDto.getFullname()}" type="text" name="fullname"/><br/>
         <label for="city">Город: </label>
-        <input th:value="*{user.getCity()}" type="text" name="city"/><br/>
+        <input th:value="*{userDto.getCity()}" type="text" name="city"/><br/>
         <label for="phone">Телефон: </label>
-        <input th:value="*{user.getPhone()}" type="tel" name="phone"/><br/>
+        <input th:value="*{userDto.getPhone()}" type="tel" name="phone"/><br/>
         <label for="birth">Дата рождения: </label>
-        <input th:value="*{user.getBirth()}" type="date" name="birth"/><br/>
+        <input th:value="*{userDto.getBirth()}" type="date" name="birth"/><br/>
         <label for="information">Обо мне: </label>
-        <input th:value="*{user.getInformation()}" type="text" name="information"/><br/>
+        <input th:value="*{userDto.getInformation()}" type="text" name="information"/><br/>
         <input type="submit" value="Подтвердить изменения"/>
     </form>
 </body>

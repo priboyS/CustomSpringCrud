@@ -9,17 +9,16 @@
 
     <a th:href="@{/}">Главная</a><br/>
     <a th:href="@{/about}">О проекте</a><br/><br/>
-
-    Ник: <span th:utext="*{user.getUsername()}"></span><br/>
-    Почта: <span th:utext="*{user.getEmail()}"></span><br/>
-    Полное имя: <span th:utext="*{user.getFullname()}"></span><br/>
-    Город: <span th:utext="*{user.getCity()}"></span><br/>
-    Телефон: <span th:utext="*{user.getPhone()}"></span><br/>
-    Дата рождения: <span th:utext="*{user.getBirth()}"></span><br/>
-    Пол: <span th:utext="*{user.getGender()}"></span><br/>
-    Фото: <span th:utext="*{user.getPhoto()}"></span><br/>
-    Обо мне: <span th:utext="*{user.getInformation()}"></span><br/>
-    Дата регистрации: <span th:utext="*{user.getDateRegistration()}"></span><br/>
+    Имя: <span th:utext="*{userDto.getUsername()}"></span></br>
+    Почта: <span th:utext="*{userDto.getEmail()}"></span><br/>
+    Полное имя: <span th:utext="*{userDto.getFullname()}"></span><br/>
+    Город: <span th:utext="*{userDto.getCity()}"></span><br/>
+    Телефон: <span th:utext="*{userDto.getPhone()}"></span><br/>
+    Дата рождения: <span th:utext="*{userDto.getBirth()}"></span><br/>
+    Пол: <span th:utext="*{userDto.getGender()}"></span><br/>
+    Фото: <span th:utext="*{userDto.getPhoto()}"></span><br/>
+    Обо мне: <span th:utext="*{userDto.getInformation()}"></span><br/>
+    Дата регистрации: <span th:utext="*{userDto.getDateRegistration()}"></span><br/>
 
     <form method="POST" th:action="@{logout}">
         <input type="submit" value="Выйти из аккаунта"/>
@@ -27,7 +26,8 @@
     <br/>
 <!--    как сделать относительную ссылку?-->
     <a th:href="@{/profile/edit}">Редактирование</a><br/>
-    <a th:href="@{/profile/editPassword}">Изменить пароль</a>
+    <a th:href="@{/profile/editPassword}">Изменить пароль</a><br/>
+    <a th:href="@{/profile/editUsername}">Изменить имя</a>
 
 </body>
 </html>

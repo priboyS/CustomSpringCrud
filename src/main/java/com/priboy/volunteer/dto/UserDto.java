@@ -2,26 +2,33 @@ package com.priboy.volunteer.dto;
 
 import com.priboy.volunteer.domain.enumeration.Gender;
 import com.priboy.volunteer.domain.enumeration.ProposalActive;
+import com.priboy.volunteer.validation.ValidPasswordConfirm;
+import com.priboy.volunteer.validation.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@ValidPasswordConfirm
 public class UserDto {
     long id;
-    @NotBlank(message = "Поле должно быть заполнено")
+    @NotBlank
     private String username;
-    @NotBlank(message = "Поле должно быть заполнено")
-    @Email(message = "Неправильная почта")
+    @ValidEmail
+    @NotBlank
+    @NotEmpty
     private String email;
-    @NotBlank(message = "Поле должно быть заполнено")
+    @NotBlank
+    @NotEmpty
     private String password;
+    @NotBlank
+    @NotEmpty
     private String confirm;
     private String fullname;
     private String city;

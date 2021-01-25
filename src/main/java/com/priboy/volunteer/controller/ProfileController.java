@@ -17,8 +17,8 @@ import java.util.Map;
 @Controller
 @RequestMapping
 public class ProfileController {
-    UserService userService;
-    PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     public ProfileController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;

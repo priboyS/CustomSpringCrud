@@ -25,10 +25,10 @@ public class ProfileController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // безопасно ли это  - получать user так из userPrincipal?
     @GetMapping("/profile")
     public String showProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        // UserPrincipal не обновляется после обновления данных, поэтому получаем так
+        UserDto userDto = userService.findByUsernameProfile(userPrincipal.getUsername());
         model.addAttribute(userDto);
 
         return "profile";
@@ -36,7 +36,7 @@ public class ProfileController {
 
     @GetMapping("/profile/edit")
     public String showEditProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        UserDto userDto = userService.findByUsernameProfile(userPrincipal.getUsername());
         model.addAttribute(userDto);
 
         return "editProfile";
@@ -46,11 +46,12 @@ public class ProfileController {
     public String editProfile(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
         UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
         userService.updateUser(userDto, userParam);
+
         return "redirect:/profile";
     }
 
     @GetMapping("/profile/editPassword")
-    public String showEditPassword(Model model){
+    public String showEditPassword(){
         return "editPassword";
     }
 

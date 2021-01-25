@@ -11,4 +11,5 @@ public interface UserService {
     boolean updatePassword(UserDto userDto, String password);
     boolean updateUsername(UserDto userDto, String username);
     UserDto findByUsername(String username);
+    UserDto findByUsernameProfile(String username);
 }

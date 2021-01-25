@@ -7,8 +7,6 @@
 </head>
 <body>
     <form method="POST" th:action="@{/profile/edit}">
-        <label for="username">Ник: </label>
-        <input th:value="*{userDto.getUsername()}" type="text" name="username"/><br/>
         <label for="email">Почта: </label>
         <input th:value="*{userDto.getEmail()}" type="email" name="email"/><br/>
         <label for="fullname">Полное имя: </label>

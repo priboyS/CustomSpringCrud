@@ -32,7 +32,7 @@ public class User {
     private String photo;
     private String information;
     private LocalDate dateRegistration;
-    private String organization = "";
+    private String organization;
     // перечисление для подачи заявок
     @Enumerated(EnumType.STRING)
     private ProposalActive proposalActive = ProposalActive.NONE;

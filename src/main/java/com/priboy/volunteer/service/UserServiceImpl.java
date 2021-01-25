@@ -40,9 +40,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean updateUser(UserDto userDto, Map<String, String> userParam) {
-        User user = userRepository.findByUsername(userDto.getUsername());
+        User user = UserMapper.MAPPER.toUser(userDto);
 
-        user.setUsername(userParam.get("username"));
         user.setEmail(userParam.get("email"));
         user.setFullname(userParam.get("fullname"));
         user.setCity(userParam.get("city"));
@@ -73,7 +72,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto findByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        return UserMapper.MAPPER.userDto(user);
+        return UserMapper.MAPPER.toUserDto(userRepository.findByUsername(username));
+    }
+
+    @Override
+    public UserDto findByUsernameProfile(String username) {
+        return UserMapper.MAPPER.toUserDtoProfile(userRepository.findByUsername(username));
     }
 }

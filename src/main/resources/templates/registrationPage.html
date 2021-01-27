@@ -11,9 +11,7 @@
     <form method="POST" th:action="@{/registration}" th:object="${userDto}">
        <span class="validationError"
               th:if="${#fields.hasErrors('global')}"
-              th:errors="*{global}"
-              ><br/>
-        </span>
+              th:errors="*{global}"></span><br/>
         <label for="username">Ник: </label>
         <input type="text" name="username"/>
         <span class="validationError"

@@ -2,6 +2,7 @@ package com.priboy.volunteer.controller;
 
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.service.UserService;
+import com.priboy.volunteer.validation.validator.RegistrationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private final UserService userService;
+    private final RegistrationValidator registrationValidator;
 
     @GetMapping
     public String registerForm(Model model){
@@ -28,11 +30,13 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistration(@Valid UserDto userDto, Errors errors){
+        // проверяем на уникальность почту и имя
+        registrationValidator.validate(userDto, errors);
         if(errors.hasErrors()){
             return "registrationPage";
         }
-
         userService.addUser(userDto);
+
         return "redirect:/login";
     }
 

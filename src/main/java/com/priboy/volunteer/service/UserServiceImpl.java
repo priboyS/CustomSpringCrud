@@ -4,6 +4,7 @@ import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.domain.User;
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,11 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // проверка на наличие даты (при пустой строке ошибка)
     static public LocalDate checkLocalDate(String birth){
@@ -32,9 +29,10 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public boolean addUser(UserDto userDto) {
+    public boolean addUser(UserDto userDto){
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(UserMapper.MAPPER.toUser(userDto));
+
         return true;
     }
 

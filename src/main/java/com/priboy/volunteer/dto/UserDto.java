@@ -2,15 +2,14 @@ package com.priboy.volunteer.dto;
 
 import com.priboy.volunteer.domain.enumeration.Gender;
 import com.priboy.volunteer.domain.enumeration.ProposalActive;
-import com.priboy.volunteer.validation.ValidPasswordConfirm;
 import com.priboy.volunteer.validation.ValidEmail;
+import com.priboy.volunteer.validation.ValidPasswordConfirm;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
@@ -18,17 +17,14 @@ import java.time.LocalDate;
 @ValidPasswordConfirm
 public class UserDto {
     long id;
-    @NotBlank
+    @NotBlank(message = "Поле должно быть заполнено")
     private String username;
     @ValidEmail
-    @NotBlank
-    @NotEmpty
+    @NotBlank(message = "Поле должно быть заполнено")
     private String email;
-    @NotBlank
-    @NotEmpty
+    @NotBlank(message = "Поле должно быть заполнено")
     private String password;
-    @NotBlank
-    @NotEmpty
+    @NotBlank(message = "Поле должно быть заполнено")
     private String confirm;
     private String fullname;
     private String city;
@@ -48,3 +44,4 @@ public class UserDto {
     private String roles = "";
     private String permissions = "";
 }
+

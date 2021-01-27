@@ -14,7 +14,6 @@ public class PasswordConfirmValidator implements ConstraintValidator<ValidPasswo
     @Override
     public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
         UserDto userDto = (UserDto) object;
-        System.out.println("лол");
         return userDto.getPassword().equals(userDto.getConfirm());
     }
 }

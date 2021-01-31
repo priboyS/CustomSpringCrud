@@ -31,7 +31,6 @@ public class User {
             "(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*"+
             "(.[A-Za-z]{2,})$")
     private String email;
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-z]).{4,20}")
     private String password;
     private String fullname;
     private String city;

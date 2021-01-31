@@ -19,12 +19,13 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private final UserService userService;
     private final RegistrationValidator registrationValidator;
+    private final UserService userService;
 
     @GetMapping
     public String registerForm(Model model){
         model.addAttribute("userDto", new UserDto());
+
         return "registrationPage";
     }
 
@@ -35,6 +36,7 @@ public class RegistrationController {
         if(errors.hasErrors()){
             return "registrationPage";
         }
+
         userService.addUser(userDto);
 
         return "redirect:/login";

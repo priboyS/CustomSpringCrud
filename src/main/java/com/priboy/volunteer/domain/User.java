@@ -5,6 +5,8 @@ import com.priboy.volunteer.domain.enumeration.ProposalActive;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,15 +15,23 @@ import java.util.List;
 @Data
 @Entity
 @Builder(access = AccessLevel.PUBLIC)
-// убрал тут protected - зачем был
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
     private long id;
+    @Column(unique = true)
+    @NotBlank
+    @Pattern(regexp = "(?=[\\w]*)(?=[^\\W])(?=[а-яА-я]*).{3,15}")
     private String username;
+    @Column(unique = true)
+    @NotBlank
+    @Pattern(regexp = "^[_A-Za-z0-9-+]" +
+            "(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*"+
+            "(.[A-Za-z]{2,})$")
     private String email;
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-z]).{4,20}")
     private String password;
     private String fullname;
     private String city;

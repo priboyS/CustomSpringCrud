@@ -25,11 +25,9 @@ public class RegistrationValidator implements Validator {
         UserDto userDto = (UserDto) o;
         if(userRepository.findByUsername(userDto.getUsername()) != null){
             errors.rejectValue("username", "usernameExistErr", "Такое имя уже существует");
-            System.out.println("1");
         }
         if(userRepository.findByEmail(userDto.getEmail()) != null){
             errors.rejectValue("email", "emailExistErr", "Такая почта уже существует");
-            System.out.println("2");
         }
     }
 }

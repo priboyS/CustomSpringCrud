@@ -1,13 +1,7 @@
 package com.priboy.volunteer;
 
-import com.priboy.volunteer.data.UserRepository;
-import com.priboy.volunteer.domain.User;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 @Service
 public class DbInit implements CommandLineRunner {
@@ -23,8 +17,12 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //
-//        User user = new User("priboysl@gmail.com", "Антон", "Похолкин", "Андреевич", passwordEncoder.encode("788180195"),
-//                "Минск","+375292708219", new GregorianCalendar(1995, Calendar.JANUARY, 18), true);
+//        User user = User.builder()
+//                .username("Anton")
+//                .email("priboysl@gmail.com")
+//                .password(passwordEncoder.encode("1234"))
+//                .city("Minsk")
+//                .build();
 //
 //        userRepository.save(user);
 

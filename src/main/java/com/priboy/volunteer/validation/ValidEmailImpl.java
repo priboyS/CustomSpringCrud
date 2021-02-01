@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
+public class ValidEmailImpl implements ConstraintValidator<ValidEmail, String> {
 
     private final UserRepository userRepository;
 
@@ -17,7 +17,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
         "(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*"+
             "(.[A-Za-z]{2,})$";
 
-    public EmailValidator(UserRepository userRepository) {
+    public ValidEmailImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

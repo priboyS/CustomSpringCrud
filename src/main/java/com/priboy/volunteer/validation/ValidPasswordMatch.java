@@ -12,9 +12,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE,ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = PasswordConfirmValidator.class)
+@Constraint(validatedBy = ValidPasswordMatchImpl.class)
 @Documented
-public @interface ValidPasswordConfirm {
+public @interface ValidPasswordMatch {
     String message() default "Пароли не совпадают";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

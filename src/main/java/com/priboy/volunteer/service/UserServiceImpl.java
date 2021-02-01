@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // проверка на наличие даты (при пустой строке ошибка)
+    // converter for birth
     static public LocalDate checkLocalDate(String birth){
         LocalDate localDate = null;
         if(!birth.equals("")){
@@ -37,15 +36,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUser(UserDto userDto, Map<String, String> userParam) {
-        User user = UserMapper.MAPPER.toUser(userDto);
-
-        user.setEmail(userParam.get("email"));
-        user.setFullname(userParam.get("fullname"));
-        user.setCity(userParam.get("city"));
-        user.setPhone(userParam.get("phone"));
-        user.setInformation(userParam.get("information"));
-        user.setBirth(checkLocalDate(userParam.get("birth")));
+    public boolean updateUser(UserDto userDto) {
+        User user = userRepository.findByUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setInformation(userDto.getInformation());
+        user.setFullname(userDto.getFullname());
+        user.setPhone(userDto.getPhone());
+        user.setBirth(userDto.getBirth());
+        user.setCity(userDto.getCity());
         userRepository.save(user);
 
         return true;

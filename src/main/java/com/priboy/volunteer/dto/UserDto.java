@@ -3,7 +3,8 @@ package com.priboy.volunteer.dto;
 import com.priboy.volunteer.domain.enumeration.Gender;
 import com.priboy.volunteer.domain.enumeration.ProposalActive;
 import com.priboy.volunteer.validation.ValidEmail;
-import com.priboy.volunteer.validation.ValidPasswordConfirm;
+import com.priboy.volunteer.validation.ValidPasswordMatch;
+import com.priboy.volunteer.validation.groups.ProfileInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,15 +16,15 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@ValidPasswordConfirm
+@ValidPasswordMatch
 public class UserDto {
     long id;
     @NotBlank(message = "Поле должно быть заполнено")
     @Pattern(regexp = "([\\w]*)([а-яА-я]*)|([а-яА-Я]*)([\\w]*)",
              message = "Не должно содержать спецсимволы, не менее 3 и не более 15 символов")
     private String username;
-    @ValidEmail
-    @NotBlank(message = "Поле должно быть заполнено")
+    @ValidEmail(groups = ProfileInfo.class)
+    @NotBlank(message = "Поле должно быть заполнено", groups = ProfileInfo.class)
     private String email;
     @NotBlank(message = "Поле должно быть заполнено")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-z]).{4,20}",

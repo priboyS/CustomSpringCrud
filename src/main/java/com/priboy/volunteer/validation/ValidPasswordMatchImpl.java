@@ -5,9 +5,9 @@ import com.priboy.volunteer.dto.UserDto;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PasswordConfirmValidator implements ConstraintValidator<ValidPasswordConfirm, Object> {
+public class ValidPasswordMatchImpl implements ConstraintValidator<ValidPasswordMatch, Object> {
     @Override
-    public void initialize(ValidPasswordConfirm constraintAnnotation) {
+    public void initialize(ValidPasswordMatch constraintAnnotation) {
 
     }
 

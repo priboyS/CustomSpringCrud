@@ -3,10 +3,14 @@ package com.priboy.volunteer.controller;
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.security.UserPrincipal;
 import com.priboy.volunteer.service.UserService;
+import com.priboy.volunteer.validation.groups.ProfileInfo;
+import com.priboy.volunteer.validation.validator.EmailMatchValidator;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +18,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+import static com.priboy.volunteer.service.UserServiceImpl.checkLocalDate;
+
 @Controller
 @RequestMapping
 public class ProfileController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailMatchValidator emailMatchValidator;
 
-    public ProfileController(UserService userService, PasswordEncoder passwordEncoder) {
+    public ProfileController(UserService userService, PasswordEncoder passwordEncoder, EmailMatchValidator emailMatchValidator) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.emailMatchValidator = emailMatchValidator;
     }
 
     @GetMapping("/profile")
@@ -36,16 +44,30 @@ public class ProfileController {
 
     @GetMapping("/profile/edit")
     public String showEditProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsernameProfile(userPrincipal.getUsername());
+        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
         model.addAttribute(userDto);
+        model.addAttribute("oldEmail", userDto.getEmail());
 
         return "editProfile";
     }
 
     @PostMapping("/profile/edit")
-    public String editProfile(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
-        userService.updateUser(userDto, userParam);
+    public String editProfile(@Validated(ProfileInfo.class) UserDto userDto, @AuthenticationPrincipal UserPrincipal userPrincipal,
+                              @RequestParam Map<String, String> userParam, Errors errors, Model model){
+        // конвертируем дату из строки в локалдат
+        userDto.setBirth(checkLocalDate(userParam.get("birthText")));
+        // запускаем валидатор почты, только если старое и новое значение отличаются
+        if(!userDto.getEmail().equals(userParam.get("oldEmail"))){
+            emailMatchValidator.validate(userDto, errors);
+        }
+        if(errors.hasErrors()){
+            // старая почта не сохранялась при отправке обратно
+            model.addAttribute("oldEmail", userParam.get("oldEmail"));
+            return "editProfile";
+        }
+        userDto.setUsername(userPrincipal.getUsername());
+
+        userService.updateUser(userDto);
 
         return "redirect:/profile";
     }

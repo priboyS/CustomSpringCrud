@@ -10,7 +10,6 @@
 <body>
     <a th:href="@{/}">Главная страница</a><br/>
     <a th:href="@{/login}">Вход</a><br/>
-    <span id="errorPassword"></span>
     <form id="registrationForm" method="POST" th:action="@{/registration}" th:object="${userDto}">
        <span class="validationError"
               th:if="${#fields.hasErrors('global')}"
@@ -31,15 +30,18 @@
         <span class="validationError"
               th:if="${#fields.hasErrors('password')}"
               th:errors="*{password}"></span><br/>
+        <input type="checkbox" id="showPassword"> Показать пароль<br/>
         <label for="confirm">Подтверждение пароля: </label>
         <input type="password" id="confirm" name="confirm"/>
         <span class="validationError" id="confirmMessage"
               th:if="${#fields.hasErrors('confirm')}"
               th:errors="*{confirm}"></span>
         <br/>
+        <input type="checkbox" id="showConfirm"> Показать пароль<br/>
         <input type="submit" value="Зарегистрироваться"/>
     </form>
-    <script src="../static/js/matchPassword.js"></script>
+    <script src="/js/matchPassword.js"></script>
+    <script src="/js/showPassword.js"></script>
 </body>
 </html>
 

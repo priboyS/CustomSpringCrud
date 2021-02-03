@@ -2,7 +2,8 @@ package com.priboy.volunteer.controller;
 
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.service.UserService;
-import com.priboy.volunteer.validation.validator.RegistrationValidator;
+import com.priboy.volunteer.validation.validator.EmailMatchValidator;
+import com.priboy.volunteer.validation.validator.UsernameMatchValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private final RegistrationValidator registrationValidator;
+    private final UsernameMatchValidator usernameMatchValidator;
+    private final EmailMatchValidator emailMatchValidator;
     private final UserService userService;
 
     @GetMapping
@@ -32,7 +34,8 @@ public class RegistrationController {
     @PostMapping
     public String processRegistration(@Valid UserDto userDto, Errors errors){
         // проверяем на уникальность почту и имя
-        registrationValidator.validate(userDto, errors);
+        usernameMatchValidator.validate(userDto, errors);
+        emailMatchValidator.validate(userDto, errors);
         if(errors.hasErrors()){
             return "registrationPage";
         }

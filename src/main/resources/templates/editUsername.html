@@ -9,7 +9,7 @@
 
 <form method="POST" th:action="@{/profile/editUsername}" th:object="${userDto}">
     <label for="username">Имя: </label>
-    <input type="text" name="username"
+    <input type="text" name="username" th:value="${userDto.getUsername()}"
            pattern="([\w]*)([а-яА-я]*)|([а-яА-Я]*)([\w]*).{3,15}" title="Спецсимволы запрещены. От 3 до 15 символов" required/><br/>
     <span class="validationError"
           th:if="${#fields.hasErrors('username')}"

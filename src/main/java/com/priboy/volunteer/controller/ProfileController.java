@@ -64,6 +64,7 @@ public class ProfileController {
         if(errors.hasErrors()){
             // старая почта не сохранялась при отправке обратно
             model.addAttribute("oldEmail", userParam.get("oldEmail"));
+            model.addAttribute(userDto);
             return "editProfile";
         }
         userDto.setUsername(userPrincipal.getUsername());
@@ -103,9 +104,11 @@ public class ProfileController {
     }
 
     @PostMapping("profile/editUsername")
-    public String editUsername(@Validated(UsernameInfo.class) UserDto userDto, @AuthenticationPrincipal UserPrincipal userPrincipal, Errors errors){
+    public String editUsername(@Validated(UsernameInfo.class) UserDto userDto, Errors errors, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
         usernameMatchValidator.validate(userDto, errors);
         if(errors.hasErrors()){
+            model.addAttribute(userDto);
+
             return "editUsername";
         }
 

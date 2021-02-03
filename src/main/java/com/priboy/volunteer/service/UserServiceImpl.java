@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUsername(UserDto userDto, String username) {
-        User user = UserMapper.MAPPER.toUser(userDto);
-        user.setUsername(username);
+    public boolean updateUsername(UserDto userDto, String oldUsername) {
+        User user = userRepository.findByUsername(oldUsername);
+        user.setUsername(userDto.getUsername());
         userRepository.save(user);
 
         return true;

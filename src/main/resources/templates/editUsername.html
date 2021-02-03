@@ -3,16 +3,17 @@
       xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Смена пароля</title>
+    <title>Смена имени пользователя</title>
 </head>
 <body>
-<div th:if="${error}">
-    <span th:utext="${errorText}"></span>
-</div>
 
-<form method="POST" th:action="@{/profile/editUsername}">
+<form method="POST" th:action="@{/profile/editUsername}" th:object="${userDto}">
     <label for="username">Имя: </label>
-    <input type="text" name="username"/><br/></br>
+    <input type="text" name="username"
+           pattern="([\w]*)([а-яА-я]*)|([а-яА-Я]*)([\w]*).{3,15}" title="Спецсимволы запрещены. От 3 до 15 символов" required/><br/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('username')}"
+          th:errors="*{username}"></span><br/>
     <input type="submit" value="Изменить имя"/>
 </form>
 </body>

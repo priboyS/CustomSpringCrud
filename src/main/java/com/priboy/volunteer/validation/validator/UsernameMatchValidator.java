@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 @Service
 @RequiredArgsConstructor
-public class EmailMatchValidator implements Validator {
+public class UsernameMatchValidator implements Validator {
 
     private final UserRepository userRepository;
 
@@ -21,9 +21,12 @@ public class EmailMatchValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         UserDto userDto = (UserDto) o;
-        if(userRepository.findByEmail(userDto.getEmail()) != null){
-            errors.rejectValue("email", "emailExistErr", "Такая почта уже существует");
+        if(userRepository.findByUsername(userDto.getUsername()) != null){
+            errors.rejectValue("username", "usernameExistErr", "Такое имя пользователя уже есть");
         }
     }
 }
+
+
+
 

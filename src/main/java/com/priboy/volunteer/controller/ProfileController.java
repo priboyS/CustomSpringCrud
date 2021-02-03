@@ -5,7 +5,9 @@ import com.priboy.volunteer.security.UserPrincipal;
 import com.priboy.volunteer.service.UserService;
 import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
+import com.priboy.volunteer.validation.groups.UsernameInfo;
 import com.priboy.volunteer.validation.validator.EmailMatchValidator;
+import com.priboy.volunteer.validation.validator.UsernameMatchValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,9 +28,11 @@ import static com.priboy.volunteer.service.UserServiceImpl.checkLocalDate;
 @RequestMapping
 @RequiredArgsConstructor
 public class ProfileController {
+
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final EmailMatchValidator emailMatchValidator;
+    private final UsernameMatchValidator usernameMatchValidator;
 
     @GetMapping("/profile")
     public String showProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
@@ -92,17 +96,22 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/editUsername")
-    public String showEditUsername(){
+    public String showEditUsername(Model model){
+        model.addAttribute(new UserDto());
+
         return "editUsername";
     }
 
     @PostMapping("profile/editUsername")
-    public String editUsername(@RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+    public String editUsername(@Validated(UsernameInfo.class) UserDto userDto, @AuthenticationPrincipal UserPrincipal userPrincipal, Errors errors){
+        usernameMatchValidator.validate(userDto, errors);
+        if(errors.hasErrors()){
+            return "editUsername";
+        }
 
         // задаем новый userPrincipal для бесшовной ауентификации (см. userPrincipal) (без токена ауентификации)
-        if(userService.updateUsername(userDto, userParam.get("username"))){
-            userPrincipal.setUsername(userParam.get("username"));
+        if(userService.updateUsername(userDto, userPrincipal.getUsername())){
+            userPrincipal.setUsername(userDto.getUsername());
         }
 
         return "redirect:/profile";

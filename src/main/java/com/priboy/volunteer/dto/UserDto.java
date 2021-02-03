@@ -6,6 +6,7 @@ import com.priboy.volunteer.validation.ValidEmail;
 import com.priboy.volunteer.validation.ValidPasswordMatch;
 import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
+import com.priboy.volunteer.validation.groups.UsernameInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +21,10 @@ import java.time.LocalDate;
 @ValidPasswordMatch(groups = PasswordInfo.class)
 public class UserDto {
     long id;
-    @NotBlank(message = "Поле должно быть заполнено")
-    @Pattern(regexp = "([\\w]*)([а-яА-я]*)|([а-яА-Я]*)([\\w]*)",
-             message = "Не должно содержать спецсимволы, не менее 3 и не более 15 символов")
+    @NotBlank(message = "Поле должно быть заполнено", groups = UsernameInfo.class)
+    @Pattern(regexp = "([\\w]*)([а-яА-я]*)|([а-яА-Я]*)([\\w]*).{3,15}",
+            message = "Не должно содержать спецсимволы, не менее 3 и не более 15 символов",
+            groups = UsernameInfo.class)
     private String username;
     @ValidEmail(groups = ProfileInfo.class)
     @NotBlank(message = "Поле должно быть заполнено", groups = ProfileInfo.class)

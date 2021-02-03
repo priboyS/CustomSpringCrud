@@ -45,7 +45,7 @@ public class ProfileController {
 
     @GetMapping("/profile/edit")
     public String showEditProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
+        UserDto userDto = userService.findByUsernameProfile(userPrincipal.getUsername());
         model.addAttribute(userDto);
         model.addAttribute("oldEmail", userDto.getEmail());
 

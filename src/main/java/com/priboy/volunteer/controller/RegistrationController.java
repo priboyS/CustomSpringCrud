@@ -26,17 +26,18 @@ public class RegistrationController {
 
     @GetMapping
     public String registerForm(Model model){
-        model.addAttribute("userDto", new UserDto());
+        model.addAttribute(new UserDto());
 
         return "registrationPage";
     }
 
     @PostMapping
-    public String processRegistration(@Valid UserDto userDto, Errors errors){
+    public String processRegistration(@Valid UserDto userDto, Errors errors, Model model){
         // проверяем на уникальность почту и имя
         usernameMatchValidator.validate(userDto, errors);
         emailMatchValidator.validate(userDto, errors);
         if(errors.hasErrors()){
+            model.addAttribute(userDto);
             return "registrationPage";
         }
 

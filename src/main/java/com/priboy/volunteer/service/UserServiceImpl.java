@@ -50,10 +50,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updatePassword(UserDto userDto, String password) {
-        User user = UserMapper.MAPPER.toUser(userDto);
-        user.setPassword(passwordEncoder.encode(password));
+    public boolean updatePassword(UserDto userDto) {
+        User user = userRepository.findByUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
+
         return true;
     }
 

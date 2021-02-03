@@ -4,23 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
-</head>
-<script>
-    function myFunction() {
-        var pass1 = document.getElementById("pass1").value;
-        var pass2 = document.getElementById("pass2").value;
 
-        if (pass1 != pass2) {
-            document.getElementById("pass2").setCustomValidity("Пароли не совпадают");
-            return false;
-        }
-    }
-</script>
+</head>
 
 <body>
     <a th:href="@{/}">Главная страница</a><br/>
     <a th:href="@{/login}">Вход</a><br/>
-    <form method="POST" onsubmit="return myFunction()" th:action="@{/registration}" th:object="${userDto}">
+    <span id="errorPassword"></span>
+    <form id="registrationForm" method="POST" th:action="@{/registration}" th:object="${userDto}">
        <span class="validationError"
               th:if="${#fields.hasErrors('global')}"
               th:errors="*{global}"></span><br/>
@@ -36,18 +27,19 @@
               th:if="${#fields.hasErrors('email')}"
               th:errors="*{email}"></span><br/>
         <label for="password">Пароль: </label>
-        <input type="password" id="pass1" name="password" pattern="^(?=.*[0-9])(?=.*[A-z]).{4,20}" title="Только латиница и цифры, не менее 4 и не более 20 символов" required/>
+        <input type="password" id="password" name="password" pattern="^(?=.*[0-9])(?=.*[A-z]).{4,20}" title="Только латиница и цифры, не менее 4 и не более 20 символов" required/>
         <span class="validationError"
               th:if="${#fields.hasErrors('password')}"
               th:errors="*{password}"></span><br/>
         <label for="confirm">Подтверждение пароля: </label>
-        <input type="password" id="pass2" name="confirm"/>
+        <input type="password" id="confirm" name="confirm"/>
         <span class="validationError" id="confirmMessage"
               th:if="${#fields.hasErrors('confirm')}"
               th:errors="*{confirm}"></span>
         <br/>
         <input type="submit" value="Зарегистрироваться"/>
     </form>
+    <script src="../static/js/matchPassword.js"></script>
 </body>
 </html>
 

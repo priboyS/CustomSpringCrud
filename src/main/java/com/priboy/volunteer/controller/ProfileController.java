@@ -3,8 +3,10 @@ package com.priboy.volunteer.controller;
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.security.UserPrincipal;
 import com.priboy.volunteer.service.UserService;
+import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
 import com.priboy.volunteer.validation.validator.EmailMatchValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,16 +24,11 @@ import static com.priboy.volunteer.service.UserServiceImpl.checkLocalDate;
 
 @Controller
 @RequestMapping
+@RequiredArgsConstructor
 public class ProfileController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final EmailMatchValidator emailMatchValidator;
-
-    public ProfileController(UserService userService, PasswordEncoder passwordEncoder, EmailMatchValidator emailMatchValidator) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.emailMatchValidator = emailMatchValidator;
-    }
 
     @GetMapping("/profile")
     public String showProfile(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
@@ -52,8 +49,8 @@ public class ProfileController {
     }
 
     @PostMapping("/profile/edit")
-    public String editProfile(@Validated(ProfileInfo.class) UserDto userDto, @AuthenticationPrincipal UserPrincipal userPrincipal,
-                              @RequestParam Map<String, String> userParam, Errors errors, Model model){
+    public String editProfile(@Validated(ProfileInfo.class) UserDto userDto, Errors errors, @AuthenticationPrincipal UserPrincipal userPrincipal,
+                              @RequestParam Map<String, String> userParam, Model model){
         // конвертируем дату из строки в локалдат
         userDto.setBirth(checkLocalDate(userParam.get("birthText")));
         // запускаем валидатор почты, только если старое и новое значение отличаются
@@ -73,30 +70,23 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/editPassword")
-    public String showEditPassword(){
+    public String showEditPassword(Model model){
+        model.addAttribute(new UserDto());
+
         return "editPassword";
     }
 
     @PostMapping("/profile/editPassword")
-    public String editPassword(Model model, @RequestParam Map<String, String> userParam, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        UserDto userDto = userService.findByUsername(userPrincipal.getUsername());
-
-        String password = userParam.get("password");
-        String confirm = userParam.get("confirm");
-        String oldPassword = userParam.get("oldPassword");
-
-        // валидация полей
-        if(!password.equals(confirm)){
-            model.addAttribute("errorText", "Ваши пароли не совпали");
-            model.addAttribute("error", true);
-            return "editPassword";
-        }else if (!passwordEncoder.matches(oldPassword, userPrincipal.getPassword())){
-            model.addAttribute("errorText", "Неверный пароль");
-            model.addAttribute("error", true);
+    public String editPassword(@Validated(PasswordInfo.class) UserDto userDto, Errors errors, @AuthenticationPrincipal UserPrincipal userPrincipal,
+                               @RequestParam Map<String, String> userParam){
+        if(!passwordEncoder.matches(userParam.get("oldPassword"), userPrincipal.getPassword())){
+            errors.reject("global", "Указанный пароль неверен");
+        }
+        if(errors.hasErrors()){
             return "editPassword";
         }
-
-        userService.updatePassword(userDto, password);
+        userDto.setUsername(userPrincipal.getUsername());
+        userService.updatePassword(userDto);
 
         return "redirect:/profile";
     }

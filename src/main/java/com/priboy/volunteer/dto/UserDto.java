@@ -4,6 +4,7 @@ import com.priboy.volunteer.domain.enumeration.Gender;
 import com.priboy.volunteer.domain.enumeration.ProposalActive;
 import com.priboy.volunteer.validation.ValidEmail;
 import com.priboy.volunteer.validation.ValidPasswordMatch;
+import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@ValidPasswordMatch
+@ValidPasswordMatch(groups = PasswordInfo.class)
 public class UserDto {
     long id;
     @NotBlank(message = "Поле должно быть заполнено")
@@ -26,11 +27,12 @@ public class UserDto {
     @ValidEmail(groups = ProfileInfo.class)
     @NotBlank(message = "Поле должно быть заполнено", groups = ProfileInfo.class)
     private String email;
-    @NotBlank(message = "Поле должно быть заполнено")
+    @NotBlank(message = "Поле должно быть заполнено", groups = PasswordInfo.class)
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-z]).{4,20}",
-            message = "Пароль должен содержать цифры и буквы (только латиница), не менее 4 и не более 20 символов")
+            message = "Пароль должен содержать цифры и буквы (только латиница), не менее 4 и не более 20 символов",
+            groups = PasswordInfo.class)
     private String password;
-    @NotBlank(message = "Поле должно быть заполнено")
+    @NotBlank(message = "Поле должно быть заполнено", groups = PasswordInfo.class)
     private String confirm;
     private String fullname;
     private String city;

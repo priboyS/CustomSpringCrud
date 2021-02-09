@@ -23,8 +23,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,16 +64,18 @@ public class RegistrationControllerIntegrationTest {
     // в сервисе правильно сохраняем и возвращаем объект
     @Test
     public void addUser_userSaved() throws Exception {
+        // обязательно указать confirm, участвует в валидации
         this.mockMvc.perform(post("/registration")
-                .param("username", "anton")
-                .param("email", "priboysl@gmail.com")
-                .param("password", "788180195")
+                .param("username", "andrey123")
+                .param("email", "priboys123@tut.by")
+                .param("password", "788180195Ya")
+                .param("confirm", "788180195Ya")
         ).andExpect(status().is3xxRedirection());
 
-        UserDto userDtoFound = UserMapper.MAPPER.toUserDto(userRepository.findByUsername("anton"));
-        assertThat("anton", equalTo(userDtoFound.getUsername()));
-        assertThat("priboysl@gmail.com", equalTo(userDtoFound.getEmail()));
-        assertTrue(passwordEncoder.matches("788180195", userDtoFound.getPassword()));
+        UserDto userDtoFound = UserMapper.MAPPER.toUserDto(userRepository.findByUsername("andrey123"));
+        assertThat("andrey123", equalTo(userDtoFound.getUsername()));
+        assertThat("priboys123@tut.by", equalTo(userDtoFound.getEmail()));
+        assertTrue(passwordEncoder.matches("788180195Ya", userDtoFound.getPassword()));
     }
 
     // здесь тестируем только один вариант неправильной валидации, саму валидацию тестируем в junit (не аннотации)
@@ -83,7 +85,7 @@ public class RegistrationControllerIntegrationTest {
         this.mockMvc.perform(post("/registration")
                 .param("username", "")
                 .param("email", "priboysl@gmail.com")
-                .param("password", "788180195")
+                .param("password", "788180195Ya")
         ).andExpect(status().isOk());
 
         UserDto userDtoFound = UserMapper.MAPPER.toUserDto(userRepository.findByUsername("anton"));

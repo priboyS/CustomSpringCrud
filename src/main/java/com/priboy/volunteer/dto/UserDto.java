@@ -7,6 +7,7 @@ import com.priboy.volunteer.validation.ValidPasswordMatch;
 import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
 import com.priboy.volunteer.validation.groups.UsernameInfo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ValidPasswordMatch(groups = PasswordInfo.class)
 public class UserDto {
     long id;

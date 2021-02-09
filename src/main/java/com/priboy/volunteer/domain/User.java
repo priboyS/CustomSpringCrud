@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(unique = true)
     @NotBlank
@@ -32,6 +32,7 @@ public class User {
             "(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*"+
             "(.[A-Za-z]{2,})$")
     private String email;
+    @NotBlank
     @Size(min = 32, max = 128)
     private String password;
     private String fullname;

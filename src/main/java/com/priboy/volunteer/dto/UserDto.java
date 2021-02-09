@@ -7,6 +7,7 @@ import com.priboy.volunteer.validation.ValidPasswordMatch;
 import com.priboy.volunteer.validation.groups.PasswordInfo;
 import com.priboy.volunteer.validation.groups.ProfileInfo;
 import com.priboy.volunteer.validation.groups.UsernameInfo;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Data
+@Builder
 @NoArgsConstructor
 @ValidPasswordMatch(groups = PasswordInfo.class)
 public class UserDto {

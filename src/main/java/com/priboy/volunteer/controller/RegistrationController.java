@@ -33,6 +33,7 @@ public class RegistrationController {
         return "registrationPage";
     }
 
+    // не работают все группы одновременно
     @PostMapping
     public String processRegistration(@Validated({ProfileInfo.class, PasswordInfo.class, UsernameInfo.class}) UserDto userDto, Errors errors, Model model){
         // проверяем на уникальность почту и имя

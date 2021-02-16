@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-import static com.priboy.volunteer.service.UserServiceImpl.checkLocalDate;
+import static com.priboy.volunteer.util.CheckLocalDateUtil.checkLocalDate;
 
 @Controller
 @RequestMapping

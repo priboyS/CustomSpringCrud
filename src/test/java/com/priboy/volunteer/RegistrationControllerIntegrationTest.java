@@ -1,13 +1,11 @@
 package com.priboy.volunteer;
 
-import com.priboy.volunteer.controller.RegistrationController;
 import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.dto.UserDto;
 import com.priboy.volunteer.mapper.UserMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,10 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// проверка сохранения объекта в контроллере с использованием сервиса и репозитория
+// проверка работоспособности контроллера (сохранение, валидация, есть ли данные в модели)
+// используем mocMvc для имитации вызова контроллера
+// без других заглушек
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -36,13 +33,7 @@ public class RegistrationControllerIntegrationTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RegistrationController registrationController;
-    @Autowired
     private PasswordEncoder passwordEncoder;
-    @Mock
-    Model model;
-    @Mock
-    Errors errors;
     @Autowired
     WebApplicationContext wac;
     MockMvc mockMvc;
@@ -56,7 +47,6 @@ public class RegistrationControllerIntegrationTest {
     @Test
     public void getModel_modelReceived() throws Exception {
         this.mockMvc.perform(get("/registration"))
-                .andExpect(model().attributeExists("userDto"))
                 .andExpect(status().isOk());
     }
 

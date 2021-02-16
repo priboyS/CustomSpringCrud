@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+// тестируем свои методы в репозитории без заглушек
 @RunWith(SpringRunner.class)
 // если запускать SpringBootTest, то эти бубны не нужны
 @DataJpaTest
@@ -46,12 +47,14 @@ public class UserRepositoryIntegrationTest{
             .email(email)
             .build();
 
+    // добавляем тестовые данные в базу данных
     @Before
     public void addDataDatabase(){
         userGiven.setPassword(passwordEncoder.encode(password));
         testEntityManager.persistFlushFind(userGiven);
     }
 
+    // удалить тестовые данные из базы данных
     @After
     public void removeDataDatabase(){
         // прикрепляем объект обратно, так как сначала была одна транзакция, а это новая

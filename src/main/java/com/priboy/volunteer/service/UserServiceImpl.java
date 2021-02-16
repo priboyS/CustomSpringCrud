@@ -8,24 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    // converter for birth
-    static public LocalDate checkLocalDate(String birth){
-        LocalDate localDate = null;
-        if(!birth.equals("")){
-            localDate = LocalDate.parse(birth);
-        }
-        return localDate;
-    }
-
 
     @Override
     public boolean addUser(UserDto userDto){

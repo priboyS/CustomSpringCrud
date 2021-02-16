@@ -1,4 +1,4 @@
-package com.priboy.volunteer;
+package com.priboy.volunteer.controller;
 
 import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.dto.UserDto;

@@ -1,4 +1,4 @@
-package com.priboy.volunteer;
+package com.priboy.volunteer.util;
 
 public class CheckLocalDateUnitTest {
 }

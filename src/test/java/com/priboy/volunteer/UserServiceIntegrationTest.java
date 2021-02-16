@@ -1,9 +1,11 @@
-package com.priboy.volunteer.service;
+package com.priboy.volunteer;
 
 import com.priboy.volunteer.config.TestConfig;
 import com.priboy.volunteer.data.UserRepository;
 import com.priboy.volunteer.domain.User;
 import com.priboy.volunteer.dto.UserDto;
+import com.priboy.volunteer.service.UserService;
+import com.priboy.volunteer.service.UserServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

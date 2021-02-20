@@ -43,9 +43,9 @@ public class RegistrationControllerIntegrationTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
-    // тестируем, что модель в контролле правильно заполняется и отдает страницу с 400
+    // тестируем, что отдается страницу с 400
     @Test
-    public void getModel_modelReceived() throws Exception {
+    public void getRequest_thenOk() throws Exception {
         this.mockMvc.perform(get("/registration"))
                 .andExpect(status().isOk());
     }

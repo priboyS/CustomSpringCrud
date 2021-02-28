@@ -18,7 +18,6 @@ public interface UserMapper {
     @Mapping(target = "confirm", ignore = true)
     @Mapping(target = "permissions", ignore = true)
     @Mapping(target = "roles", ignore = true)
-    @Mapping(target = "organization", ignore = true)
     @Mapping(target = "active", ignore = true)
     UserDto toUserDtoProfile(User user);
 }

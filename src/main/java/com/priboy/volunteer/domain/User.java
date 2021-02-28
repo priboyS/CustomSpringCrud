@@ -1,7 +1,5 @@
 package com.priboy.volunteer.domain;
 
-import com.priboy.volunteer.domain.enumeration.Gender;
-import com.priboy.volunteer.domain.enumeration.ProposalActive;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,19 +33,8 @@ public class User {
     @NotBlank
     @Size(min = 32, max = 128)
     private String password;
-    private String fullname;
     private String city;
-    private String phone;
     private LocalDate birth;
-    @Enumerated(EnumType.STRING)
-    private Gender gender = Gender.MALE;
-    private String photo;
-    private String information;
-    private LocalDate dateRegistration;
-    private String organization;
-    // перечисление для подачи заявок
-    @Enumerated(EnumType.STRING)
-    private ProposalActive proposalActive = ProposalActive.NONE;
 
     @Column(columnDefinition = "int default 1")
     private int active = 1;
@@ -67,11 +54,4 @@ public class User {
         }
         return new ArrayList<String>();
     }
-
-    // получаем текущую дату регистрации
-    @PrePersist
-    void dateRegistration(){
-        this.dateRegistration = LocalDate.now();
-    }
-
 }

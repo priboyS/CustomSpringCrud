@@ -13,16 +13,10 @@
         <span class="validationError"
               th:if="${#fields.hasErrors('email')}"
               th:errors="*{email}"></span><br/>
-        <label for="fullname">Полное имя: </label>
-        <input th:value="${userDto.getFullname()}" type="text" name="fullname"/><br/>
         <label for="city">Город: </label>
         <input th:value="${userDto.getCity()}" type="text" name="city"/><br/>
-        <label for="phone">Телефон: </label>
-        <input th:value="${userDto.getPhone()}" type="tel" name="phone"/><br/>
         <label for="birth">Дата рождения: </label>
         <input th:value="${userDto.getBirth()}" type="date" name="birthText"/><br/>
-        <label for="information">Обо мне: </label>
-        <input th:value="${userDto.getInformation()}" type="text" name="information"/><br/>
         <input th:value="${oldEmail}" type="hidden" name="oldEmail"/>
         <input type="submit" value="Подтвердить изменения"/>
     </form>

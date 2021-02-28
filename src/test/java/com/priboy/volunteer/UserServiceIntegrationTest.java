@@ -89,9 +89,6 @@ public class UserServiceIntegrationTest {
                 .username("anton")
                 .email("priboys@tut.by")
                 .city("Минск")
-                .information("я делаю сайт")
-                .fullname("Антон Андреевич")
-                .phone("+375297101029")
                 .birth(LocalDate.parse("2020-10-10"))
                 .build();
 
@@ -101,9 +98,6 @@ public class UserServiceIntegrationTest {
         assertThat("anton", equalTo(userDtoFound.getUsername()));
         assertThat("priboys@tut.by", equalTo(userDtoFound.getEmail()));
         assertThat("Минск", equalTo(userDtoFound.getCity()));
-        assertThat("я делаю сайт", equalTo(userDtoFound.getInformation()));
-        assertThat("Антон Андреевич", equalTo(userDtoFound.getFullname()));
-        assertThat("+375297101029", equalTo(userDtoFound.getPhone()));
         assertThat(LocalDate.parse("2020-10-10"), equalTo(userDtoFound.getBirth()));
         assertTrue(passwordEncoder.matches("1234", userDtoFound.getPassword()));
     }

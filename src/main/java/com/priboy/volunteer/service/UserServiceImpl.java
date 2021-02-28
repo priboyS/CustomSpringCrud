@@ -27,9 +27,6 @@ public class UserServiceImpl implements UserService{
     public boolean updateUser(UserDto userDto) {
         User user = userRepository.findByUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
-        user.setInformation(userDto.getInformation());
-        user.setFullname(userDto.getFullname());
-        user.setPhone(userDto.getPhone());
         user.setBirth(userDto.getBirth());
         user.setCity(userDto.getCity());
         userRepository.save(user);

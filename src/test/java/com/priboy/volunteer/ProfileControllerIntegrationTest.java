@@ -70,9 +70,16 @@ public class ProfileControllerIntegrationTest {
     // вставляем UserPrincipal для @AuthenicationPrincipal
     // нужно @WebAppConfiguration и .apply(springSecurity())
     @Test
-    public void getRequest_thenOk() throws Exception {
+    public void showProfile_thenOk() throws Exception {
         UserPrincipal userPrincipal = new UserPrincipal(user);
         this.mockMvc.perform(get("/profile").with(user(userPrincipal)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void showEditProfile_thenOk() throws Exception {
+        UserPrincipal userPrincipal = new UserPrincipal(user);
+        this.mockMvc.perform(get("/profile/edit").with(user(userPrincipal)))
                 .andExpect(status().isOk());
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+</head>
+<tbody>
+    <h3>Управление пользователями</h3>
+    <a th:href="@{/}">Вернуться на главную</a>
+    <tr th:if="${users.isEmpty()}">
+        <td>Пользователей нет</td>
+    </tr>
+    <table>
+        <tr>
+            <td>Имя</td>
+            <td>Почта</td>
+            <td>Город</td>
+            <td>Дата рождения</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td><span th:utext="${user.getUsername()}"></span></td>
+            <td><span th:utext="${user.getEmail()}"></span></td>
+            <td><span th:utext="${user.getCity()}"></span></td>
+            <td><span th:utext="${user.getBirth()}"></span></td>
+            <td><a th:href="@{admin/edit(username=${user.getUsername()})}"><button>Редактировать</button></a></td>
+            <td>
+                <form method="post" th:action="@{admin/delete}">
+                    <input type="hidden" th:value="${user.getUsername()}" th:name="username"/>
+                    <input type="submit" th:value="Удалить"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+</tbody>
+</html>

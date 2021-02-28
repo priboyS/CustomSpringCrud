@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -60,5 +63,24 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto findByUsernameProfile(String username) {
         return UserMapper.MAPPER.toUserDtoProfile(userRepository.findByUsername(username));
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        Iterable<User> all = userRepository.findAll();
+        List<UserDto> allUser = new ArrayList<>();
+
+        for (User user : all) {
+            allUser.add(UserMapper.MAPPER.toUserDto(user));
+        }
+
+        return allUser;
+    }
+
+    @Override
+    public boolean deleteUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        userRepository.delete(user);
+        return true;
     }
 }
